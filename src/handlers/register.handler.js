@@ -16,7 +16,7 @@ const registerHandler = (io) => {
         const userUUID = uuidv4();
         // 사용자 추가
         addUser({ uuid: userUUID, socketId: socket.id });
-        createStage(uuerUUID);
+
         // 접속시 유저 정보 생성 이벤트 처리
         handleConnection(socket, userUUID);
 
