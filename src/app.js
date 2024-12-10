@@ -10,6 +10,9 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// 정적 파일 서빙
+app.use(express.static('public'));
+
 // 소켓 시작
 initSocket(server);
 
