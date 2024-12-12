@@ -1,5 +1,6 @@
 class Score {
   score = 0;
+  stageChange = true;
   HIGH_SCORE_KEY = 'highScore';
 
   constructor(ctx, scaleRatio) {
@@ -10,6 +11,11 @@ class Score {
 
   update(deltaTime) {
     this.score += deltaTime * 0.001;
+    // 점수가 100점 이상이 될 시 서버에 메세지 전송
+    if (Math.floor(this.score) === 100 && this.stageChange) {
+      this.stageChange = false;
+      sendEvent(11, { currentStage: 1000, targetStage: 1001 });
+    }
   }
 
   getItem(itemId) {
