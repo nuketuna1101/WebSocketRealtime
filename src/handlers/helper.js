@@ -7,6 +7,7 @@
 import { createStage } from '../models/stage.model.js';
 import { getUsers, removeUser } from '../models/user.model.js';
 import { CLIENT_VERSION } from '../constants.js';
+import handlerMappings from './handlerMapping.js';
 
 
 // 연결 해제 핸들링
