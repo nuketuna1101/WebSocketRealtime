@@ -1,5 +1,12 @@
+//====================================================================================================================
+//====================================================================================================================
+// app.js
+//====================================================================================================================
+//====================================================================================================================
+
 import express from 'express';
 import { createServer } from 'http';
+// inits
 import initSocket from './init/socket.js';
 import { loadGameAssets } from './init/assets.js';
 
@@ -16,14 +23,9 @@ app.use(express.static('public'));
 // 소켓 시작
 initSocket(server);
 
-// test api
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World</h1>');
-});
-
 // 
 server.listen(PORT, async () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`:: Server is running on port ${PORT}`);
 
     try {
         // Asset loading

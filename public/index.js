@@ -1,3 +1,9 @@
+//====================================================================================================================
+//====================================================================================================================
+// public/index.js
+// 클라이언트 메인 진입점
+//====================================================================================================================
+//====================================================================================================================
 import Player from './Player.js';
 import Ground from './Ground.js';
 import CactiController from './CactiController.js';
@@ -26,7 +32,7 @@ const MIN_JUMP_HEIGHT = 150;
 // 땅
 const GROUND_WIDTH = 2400;
 const GROUND_HEIGHT = 24;
-const GROUND_SPEED = 0.5;
+const GROUND_SPEED = 0.4;//0.5;
 
 // 선인장
 const CACTI_CONFIG = [
@@ -165,6 +171,8 @@ function reset() {
   cactiController.reset();
   score.reset();
   gameSpeed = GAME_SPEED_START;
+  // 게임시작 핸들러ID 2, payload 에는 게임 시작 시간
+  sendEvent(2, { timestamp: Date.now() });
 }
 
 function setupGameReset() {

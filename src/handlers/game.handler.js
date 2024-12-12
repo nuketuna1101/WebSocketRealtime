@@ -9,15 +9,15 @@ import { getStage, setStage } from '../models/stage.model.js';
 import { getGameAssets } from '../init/assets.js';
 
 export const gameStart = (uuid, payload) => {
-
-
     // 서버 메모리에 있는 게임 에셋에서 stage 정보를 가지고 온다.
     const { stages } = getGameAssets();
+    // 스테이지 초기화를 위해 비우기
+    clearStage(uuid);
     // stages 배열에서 0번째 = 첫번째스테이지 의 ID를 해당 유저의 stage에 저장한다.
-    setStage(userUUID, stages.data[0].id);
+    setStage(uuid, stages.data[0].id, payload.timestamp);
     // 로그를 찍어 확인.
     console.log('Stage:', getStage(userUUID));
-    return {};
+    return { status: 'success' };
 };
 
 export const gameEnd = (uuid, payload) => {
