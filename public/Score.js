@@ -16,6 +16,7 @@ class Score {
     // 점수가 100점 이상이 될 시 서버에 메세지 전송
     if (Math.floor(this.score) === 10 && this.stageChange) {
       this.stageChange = false;
+      // :: 서버 전송 : movestagehandler id로 전송
       sendEvent(11, { currentStage: 1000, targetStage: 1001 });
     }
   }
