@@ -226,6 +226,7 @@ function gameLoop(currentTime) {
   }
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
+    console.log("Score gained : " + collideWithItem.itemId);
     score.getItem(collideWithItem.itemId);
   }
 
@@ -252,3 +253,42 @@ function gameLoop(currentTime) {
 requestAnimationFrame(gameLoop);
 
 window.addEventListener('keyup', reset, { once: true });
+
+
+
+
+
+// ======================================================================
+// 채팅 관련
+
+const messages = document.getElementById('messages');
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
+
+
+// 채팅 입력 후 누를 시에 전송
+sendButton.addEventListener('click', () => {
+  const msg = messageInput.value;
+  console.log("send clicked : " + msg);
+  if (msg) {
+    sendEvent(5, { message: msg });
+    messageInput.value = '';
+  }
+});
+
+// 엔터 입력으로도 호환
+messageInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    sendButton.click();
+  }
+});
+
+
+// chatMessage 브로드캐스트 이벤트 발생 시 띄워주기 
+// socket.on('chatMessage', (msg) => {
+//   const item = document.createElement('div');
+//   item.textContent = msg;
+//   messages.appendChild(item);
+//   // 자동 스크롤 
+//   messages.scrollTop = messages.scrollHeight;
+// });

@@ -19,7 +19,10 @@ const registerHandler = (io) => {
         // 접속시 유저 정보 생성 이벤트 처리
         handleConnection(socket, userUUID);
         // 메세지를 data 란 이름으로 handlerEvent 함수로 전달합니다.
-        socket.on('event', (data) => handleEvent(io, socket, data));
+        socket.on('event', (data) => {
+            console.log("Event received:", data); // 로그 추가
+            handleEvent(io, socket, data);
+        });
         // 접속 해제 시 이벤트 처리
         socket.on('disconnect', () => handleDisconnect(socket, userUUID));
     });
