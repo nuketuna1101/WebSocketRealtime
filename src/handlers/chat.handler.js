@@ -15,5 +15,10 @@ export const chatReceived = (userId, payload) => {
     }
     const message = payload.message;
     // 채팅 메시지를 모든 클라이언트에게 브로드캐스트
-    return { status: 'success', message: `${userId} : ${message}`, broadcast: true };
+    return { 
+        status: 'success', 
+        resType: 'chatReceived', 
+        message: `${userId} : ${message}`, 
+        broadcast: true 
+    };
 };

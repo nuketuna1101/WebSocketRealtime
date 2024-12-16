@@ -1,4 +1,4 @@
-import { sendEvent } from './Socket.js';
+import { sendEvent, setScoreInstance } from './Socket.js';
 
 class Score {
   score = 0;
@@ -9,6 +9,8 @@ class Score {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.scaleRatio = scaleRatio;
+     // Score 인스턴스를 Socket.js에 전달
+    setScoreInstance(this);
   }
 
   update(deltaTime) {
@@ -21,8 +23,14 @@ class Score {
     }
   }
 
+  // TODO :: 아이템 획득 시 스코어 증가 
   getItem(itemId) {
-    this.score += 0;
+    // 서버에 전송: item handler id 
+    sendEvent(4, { itemId });
+  }
+
+  addScore(additionalScore){
+    this.score += additionalScore;
   }
 
   reset() {

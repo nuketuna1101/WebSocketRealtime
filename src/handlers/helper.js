@@ -53,13 +53,13 @@ export const handleEvent = (io, socket, data) => {
     console.log("Payload:", data.payload);
 
 
-    // 적절한 핸들러에 userID 와 payload를 전달하고 결과를 받습니다.
+    // 적절한 핸들러에 userID 와 payload를 전달하고 결과
     const response = handler(data.userId, data.payload);
-    // 만약 결과에 broadcast (모든 유저에게 전달)이 있다면 broadcast 합니다.
+    // 만약 결과에 broadcast (모든 유저에게 전달)이 있다면 broadcast
     if (response.broadcast) {
         io.emit('response', response);
         return;
     }
-    // 해당 유저에게 적절한 response를 전달합니다.
+    // 해당 유저에게 적절한 response를 전달
     socket.emit('response', response);
 };

@@ -7,6 +7,7 @@
 //====================================================================================================================
 //====================================================================================================================
 import { CLIENT_VERSION } from './Constants.js';
+import Score from './Score.js';
 
 // 클라이언트 버전에 맞게 초기화
 const socket = io('http://localhost:3000', {
@@ -19,36 +20,29 @@ let userId = null;
 
 // response 이벤트 수신 및 broadcast 여부 확인
 socket.on('response', (data) => {
-    if (data.broadcast) {
-        // 브로드캐스트 시 채팅에 입력
-        console.log("This response was broadcasted.");
-        const item = document.createElement('div');
-        item.textContent = data.message;
-        messages.appendChild(item);
-        messages.scrollTop = messages.scrollHeight;
-    } else {
-        console.log("This response was not broadcasted.");
+    // resType에 따라
+    if (data.status !== 'success')
+        console.log("[Error] failed to get response" + resType);
+
+    const resType = data.resType;
+    switch (resType) {
+        case 'chatReceived':
+            handleResChatReceived(data);
+            break;
+        case 'itemGained':
+            handleResItemGained(data);
+            break;
+        default:
+            console.log("[Unknown] Unknown Response Success " + resType);
+            break;
     }
 });
-
-
 
 // connection 이벤트 수신
 socket.on('connection', (data) => {
     console.log('connection: ', data);
     userId = data.uuid;
 });
-
-// chatMessage 브로드캐스트 이벤트 발생 시 띄워주기
-socket.on('chatMessage', (msg) => {
-    console.log('chatMessage: ', msg);
-    const item = document.createElement('div');
-    item.textContent = msg;
-    messages.appendChild(item);
-    // 자동 스크롤
-    messages.scrollTop = messages.scrollHeight;
-});
-
 
 
 // 이벤트 전송 함수
@@ -62,8 +56,38 @@ const sendEvent = (handlerId, payload) => {
     });
 };
 
-export { sendEvent };
+//====================================================================================================================
+//====================================================================================================================
+// handle response 로직들
+
+const handleResChatReceived = (data) => {
+    if (data.broadcast) {
+        // 브로드캐스트 시 채팅에 입력
+        console.log("This response was broadcasted.");
+        const item = document.createElement('div');
+        item.textContent = data.message;
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+    } else {
+        console.log("This response was not broadcasted.");
+    }
+};
 
 
+const handleResItemGained = (data) => {
+    if (data.status === 'success')
+        scoreInstance.addScore(data.itemScore); // Score 인스턴스에 점수 추가
+    else
+        console.log("Failed to gain item: " + data.message);
+};
 
 
+//====================================================================================================================
+// Score 클래스의 인스턴스를 저장할 변수 선언
+let scoreInstance = null; 
+// Score 인스턴스를 설정하는 함수
+const setScoreInstance = (score) => {
+    scoreInstance = score;
+};
+
+export { sendEvent, setScoreInstance };

@@ -259,7 +259,7 @@ window.addEventListener('keyup', reset, { once: true });
 
 
 // ======================================================================
-// 채팅 관련
+// Chat FEATURE
 
 const messages = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
@@ -282,13 +282,3 @@ messageInput.addEventListener('keypress', (e) => {
     sendButton.click();
   }
 });
-
-
-// chatMessage 브로드캐스트 이벤트 발생 시 띄워주기 
-// socket.on('chatMessage', (msg) => {
-//   const item = document.createElement('div');
-//   item.textContent = msg;
-//   messages.appendChild(item);
-//   // 자동 스크롤 
-//   messages.scrollTop = messages.scrollHeight;
-// });
